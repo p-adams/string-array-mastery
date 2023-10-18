@@ -1,10 +1,26 @@
 <script lang="ts">
-  let count: number = 0
-  const increment = () => {
-    count += 1
-  }
+  import { problemSets } from "../main";
+
+  export let current: { label: string; value: string };
 </script>
 
-<button on:click={increment}>
-  count is {count}
-</button>
+<div>
+  {#each problemSets?.array as problem}
+    <div
+      class={`problem ${current?.value === problem.value ? "current" : ""} `}
+    >
+      {problem.label}
+    </div>
+  {/each}
+</div>
+
+<style>
+  .problem {
+    outline: 1px solid;
+    height: 300px;
+    width: 500px;
+  }
+  .problem.current {
+    outline: 2px solid blue;
+  }
+</style>

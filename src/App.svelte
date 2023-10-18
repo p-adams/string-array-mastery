@@ -1,21 +1,8 @@
 <script lang="ts">
   import MasteryApp from "./lib/MasteryApp.svelte";
-  const problemSets = {
-    array: [
-      {
-        label: "Sum of Elements",
-        value: "sum_of_elements",
-      },
-      {
-        label: "Average of Elements",
-        value: "average_of_elements",
-      },
-      {
-        label: "Max and Min",
-        value: "max_and_min",
-      },
-    ],
-  };
+  import { problemSets } from "./main";
+
+  let current: { label: string; value: string } = problemSets.array[0];
 </script>
 
 <main>
@@ -25,7 +12,16 @@
       <li>
         Array <ul>
           {#each problemSets.array as problem}
-            <li>{problem.label}</li>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+            <li
+              class={`problem ${
+                current?.value === problem.value ? "current" : ""
+              }`}
+              on:click={() => (current = problem)}
+            >
+              {problem.label}
+            </li>
           {/each}
         </ul>
       </li>
@@ -33,7 +29,7 @@
   </nav>
 
   <div class="card">
-    <MasteryApp />
+    <MasteryApp {current} />
   </div>
 
   <p class="read-the-docs">
@@ -67,5 +63,11 @@
   }
   .read-the-docs {
     color: #888;
+  }
+  ul li {
+    line-height: 5rem;
+  }
+  .problem.current {
+    outline: 1px solid blue;
   }
 </style>
